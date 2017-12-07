@@ -44,7 +44,7 @@ public class Part1 {
         return newBlocks;
     }
 
-    private static Integer findLoop(List<Integer> blocks) {
+    private static void findLoop(List<Integer> blocks) {
         List<List<Integer>> states = new ArrayList<List<Integer>>();
 
         List<Integer> latestState = blocks;
@@ -56,7 +56,10 @@ public class Part1 {
             stepCount++;
         }
 
-        return stepCount;
+        Integer loopLength = stepCount - states.indexOf(latestState);
+
+        System.out.println(String.format("Number of steps before finding loop: %d", stepCount));
+        System.out.println(String.format("Loop cycle length: %d", loopLength));
     }
 
     public static void main(String[] args) {
@@ -68,9 +71,7 @@ public class Part1 {
             
             List<Integer> blocks = Part1.getBlocks(line);
 
-            Integer loop = Part1.findLoop(blocks);
-
-            System.out.println(Integer.toString(loop));
+            Part1.findLoop(blocks);
 
         } catch (IOException ex) {
             System.err.println(ex);

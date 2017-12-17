@@ -24,17 +24,14 @@
 
 (defn cond-true
   "determine if condition part of instruction is true"
-  [instruction reg-map]
-  (let [cond-reg (get reg-map (:cond-reg instruction) 0)]
-    ((:cond-op instruction) cond-reg (:cond-val instruction))))
+  [{:keys [cond-reg cond-op cond-val]} reg-map]
+  (let [cond-reg-val (get reg-map cond-reg 0)]
+    (cond-op cond-reg-val cond-val)))
 
 (defn update-regs
   "update reg-map based on instruction (assumes cond is met)"
-  [instruction reg-map]
-  (let [reg (:reg instruction)
-        reg-val (get reg-map reg 0)
-        op (:op instruction)
-        op-val (:op-val instruction)
+  [{:keys [reg op op-val]} reg-map]
+  (let [reg-val (get reg-map reg 0)
         new-val (case op
                   "inc" (+ reg-val op-val)
                   "dec" (- reg-val op-val))]
